@@ -131,6 +131,8 @@ namespace maschinendeck {
                 if (Serial.available() && Serial.peek() == '\n') {
                     Serial.read();
                 }
+                Serial.flush();
+                Serial.read();
                 break;
             }
             this->message += car;
@@ -148,23 +150,18 @@ namespace maschinendeck {
 
         Pair<String, String> command = SerialTerminal::ParseCommand(this->message);
         this->message = "";
-
-        #ifndef ST_FLAG_NOPROMPT
         bool found = false;
-        #endif
         for (uint8_t i = 0; i < this->size_; i++) {
           if (this->commands[i]->command == command.first()) {
             this->commands[i]->callback(command.second());
-            #ifndef ST_FLAG_NOPROMPT
             found = true;
-            #endif
           }
         }
-        #ifndef ST_FLAG_NOPROMPT
         if (!found) {
-            Serial.print(command.first());
-            Serial.print(": command not found");
+            Serial.print("\n"+command.first());
+            Serial.println(": command not found");
         }
+        #ifndef ST_FLAG_NOPROMPT
         Serial.print("\r\nst> ");
         #endif
       }
@@ -193,7 +190,6 @@ namespace maschinendeck {
         }
         if (keyword != "")
         message.remove(0, keyword.length());
-        keyword.trim();
         message.trim();
         int msg_len = message.length();
         if (msg_len > 0) {
