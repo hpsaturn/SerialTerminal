@@ -1,6 +1,6 @@
 #pragma once
 
-#define ST_VERSION "1.1.1"
+#define ST_VERSION "1.1.2"
 
 #include <Arduino.h>
 
@@ -84,7 +84,7 @@ namespace maschinendeck {
             Serial.print("SerialTerm v");
             Serial.print(ST_VERSION);
             Serial.print("\r\n");
-            Serial.println("(C) 2019, MikO");
+            Serial.println("(C) 2022, MikO - Hpsaturn");
             Serial.println("  available commands:");
         #endif
       }
